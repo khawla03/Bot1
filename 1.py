@@ -7,6 +7,8 @@ from discord import reaction
 
 client = discord.Client()
 lst = []
+log=[] 
+point=''
 #creds = None
 #service = build('docs', 'v1', credentials=creds)
 @client.event
@@ -51,10 +53,12 @@ async def on_message(message):
         msg = message.content 
         i = msg.find('/')
         j = msg.find('at')
+        k = msg.find('till')
         print(i)
         embedVar = discord.Embed(title="Meeting", description= message.channel.name + ' meeting , react with ✅' , color=0x00ff00)
         embedVar.add_field(name="Date", value=msg[i-2:i+8], inline=False)
-        embedVar.add_field(name="time", value=msg[j:], inline=False)
+        embedVar.add_field(name="starts", value=msg[j:j+7], inline=False)
+        embedVar.add_field(name="till", value=msg[k+4:], inline=False)
         await message.channel.send(embed=embedVar)
 
         #insert_field_at(index, *, name, value, inline=True)
@@ -72,7 +76,35 @@ async def on_message(message):
             await message.channel.send('le rapporteur : '+rapporteur.mention)
 
         #await message.channel.send('{} has won the raffle.'.format(winner))
-    
+    else:
+      msg = message.content
+      log =[]
+      i=0
+      channelid = client.get_channel(848122485806727168)
+      embedVar = discord.Embed(title="LOG", description= message.channel.name + ' log' , color=0x00ff00)
+          
+      if msg.startswith('$c_log'): 
+          Response ='write the points you will talk about in this meeting:' 
+          await message.channel.send(Response)
+          point='' 
+          def check(m):
+                if m.content != '**':
+                  log.append( m.content )
+                  embedVar.add_field(name='point'+str(i+1), value=log[i], inline=False)
+                return True
+
+          while (point != '**'):
+            channel = message.channel
+
+            msg = await client.wait_for('message', check=check)
+            #await channel.send('hi2') 
+            point=msg.content
+            print(point)
+            i=i+1
+     
+          await channelid.send(embed=embedVar)
+
+
 
 client.run(os.getenv('TOKEN'))
 
