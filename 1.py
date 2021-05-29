@@ -96,7 +96,7 @@ async def on_message(message):
           def check(m):
                 if m.content != '**':
                   log.append( m.content )
-                  embedVar.add_field(name='point'+str(i+1), value=log[i], inline=False)
+                  embedVar.add_field(name='________________', value=log[i], inline=False)
                 return True
 
           while (point != '**'):
@@ -113,7 +113,7 @@ async def on_message(message):
       else:
          if msg.startswith('$add'): 
            
-           embedVar.add_field(name='point'+str(i+1), value=msg[4:], inline=False)
+           embedVar.add_field(name='________________', value=msg[4:], inline=False)
          else:
             if msg.startswith('$s_log'):
               await channelid.send(embed=embedVar)
