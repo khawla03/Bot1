@@ -65,6 +65,8 @@ async def on_message(message):
         embedmeet.add_field(name="starts", value=msg[j:j+7], inline=False)
         embedmeet.add_field(name="till", value=msg[k+4:], inline=False)
         await message.channel.send(embed=embedmeet)
+        channelmeet = client.get_channel(848164881663787039)
+        await channelmeet.send(embed=embedmeet)
 
         #insert_field_at(index, *, name, value, inline=True)
         channel = message.channel
